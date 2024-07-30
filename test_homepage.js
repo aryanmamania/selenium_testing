@@ -23,7 +23,7 @@ const assert = require('assert');
         console.log('Current URL after login attempt:', currentUrl);
 
         // Wait for the homepage to load by checking the presence of the greeting text
-        await driver.wait(until.elementLocated(By.css('.md\\:text-4xl.text-2xl')), 30000); // Increase timeout to 30 seconds
+        await driver.wait(until.elementLocated(By.css('.md\\:text-4xl.text-2xl')), 20000); // Increase timeout to 30 seconds
 
         // Check if the greeting text is present
         let greetingText = await driver.findElement(By.css('.md\\:text-4xl.text-2xl')).getText();

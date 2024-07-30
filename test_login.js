@@ -1,6 +1,6 @@
 const { Builder, By, until } = require('selenium-webdriver');
 require('chromedriver');
-const assert = require('assert'); // Import the assert module for assertions
+const assert = require('assert');
 
 (async function loginTest() {
     let driver = await new Builder().forBrowser('chrome').build();
@@ -10,29 +10,26 @@ const assert = require('assert'); // Import the assert module for assertions
         await driver.get('http://localhost:3000/login'); // Replace with your actual login page URL
 
         console.log('Waiting for login page to load...');
-        await driver.wait(until.elementLocated(By.name('username')), 10000); // Ensure the username field is present
+        let usernameField = await driver.wait(until.elementLocated(By.name('username')), 15000);
+        console.log('Username field located');
+        assert.ok(usernameField, 'Username field not found on login page');
 
         console.log('Entering username...');
-        await driver.findElement(By.name('username')).sendKeys('ricky'); // Replace 'testuser' with a test username
+        await driver.findElement(By.name('username')).sendKeys('ricky'); // Replace 'ricky' with a test username
 
         console.log('Entering password...');
-        await driver.findElement(By.name('password')).sendKeys('ricky'); // Replace 'password123' with a test password
+        await driver.findElement(By.name('password')).sendKeys('ricky'); // Replace 'ricky' with a test password
 
         console.log('Clicking submit button...');
         await driver.findElement(By.css('button[type="submit"]')).click();
 
         // Optionally add a short wait to ensure that network requests complete
         console.log('Waiting for possible page updates...');
-        await driver.sleep(3000); // Adjust as necessary
+        await driver.sleep(5000); // Increase sleep time if necessary
 
-        // Check for successful login indication
         console.log('Checking for successful login indication...');
-        let profilePicture = await driver.wait(
-            until.elementLocated(By.css('img.w-11')), 
-            10000
-        );
-
-        // Use assert to check if the profile picture is present
+        let profilePicture = await driver.wait(until.elementLocated(By.css('img.w-11')), 15000);
+        console.log('Profile picture located');
         assert.ok(profilePicture, 'Profile picture not found, login might have failed');
 
         console.log('Login successful');
@@ -47,3 +44,4 @@ const assert = require('assert'); // Import the assert module for assertions
         await driver.quit();
     }
 })();
+

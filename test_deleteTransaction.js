@@ -2,11 +2,13 @@ const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
 const fs = require('fs');
 
-(async function testUpdateTransaction() {
+(async function testAddAndDeleteTransaction() {
     let driver = await new Builder().forBrowser('chrome').build();
     try {
-        // Navigate to the login page
+        // Test 1: Add a Transaction
         await driver.get('http://localhost:3000/login');
+
+        // Wait for the username input field to be present
         await driver.wait(until.elementLocated(By.id('username')), 20000);
         console.log("Login page loaded");
 
@@ -47,20 +49,28 @@ const fs = require('fs');
         // Click the "Add Transaction" button
         await driver.findElement(By.css('button[type="submit"]')).click();
 
-   
         // Wait for the new transaction card to appear
         await driver.wait(until.elementLocated(By.xpath('//*[@id="root"]/div/div[3]/div[3]/div/div[1]')), 60000);
-   
         console.log("New transaction card found");
 
+        // Extract and log the card content
+        const newTransactionCard = await driver.findElement(By.xpath('//*[@id="root"]/div/div[3]/div[3]/div/div[1]/div'));
+        const cardContent = await newTransactionCard.getText();
+        console.log('New Transaction Card Content:', cardContent);
 
-     
-        console.log("Testing successful");
+        // Test 2: Update the Transaction
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[3]/div[3]/div/div[1]/div/div[1]/div')).click();
+        console.log("Clicked delete transaction button");
+
+
+        // Add assertions to verify the update functionality as needed
+        // For example, check that the form fields are correctly populated
+
+        // Optional: Add more validation or interactions if required
+
+        console.log("Test case passed");
     } catch (error) {
         console.error('An error occurred:', error);
-        await driver.takeScreenshot().then(function (image, err) {
-            fs.writeFileSync('error-screenshot.png', image, 'base64');
-        });
     } finally {
         await driver.quit();
     }

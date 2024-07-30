@@ -24,8 +24,8 @@ describe('Sign Up Test', function() {
         await driver.wait(until.elementLocated(By.id('male')), 10000);
 
         // Fill in the form fields
-        await driver.findElement(By.id('name')).sendKeys('John Do');
-        await driver.findElement(By.id('username')).sendKeys('johndo');
+        await driver.findElement(By.id('name')).sendKeys('JohnSharmadvevrfegre');
+        await driver.findElement(By.id('username')).sendKeys('johnSharmagergfewg');
         await driver.findElement(By.id('password')).sendKeys('password123');
         await driver.findElement(By.id('male')).click();
 
